@@ -6,9 +6,9 @@ var io = require('socket.io')(server);
 
 app.use(express.static('client'))
 
-app.get('/hola-mundo', function(req, res) {
-    res.status(200).send('Hola mundo desde el servidor')
-});
+// app.get('/hola-mundo', function(req, res) {
+//     res.status(200).send('Hola mundo desde el servidor')
+// });
 
 var messages = [{
     id: 1,
@@ -19,6 +19,11 @@ var messages = [{
 io.on('connection', function(socket) {
     console.log("el nodo con IP: " + socket.handshake.address + " se ah conectado");
     socket.emit('messages', messages)
+
+    socket.on('add-message', function(data) {
+        messages.push(data);
+        io.sockets.emit('messages', messages);
+    });
 
 })
 
