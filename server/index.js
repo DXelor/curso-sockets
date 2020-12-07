@@ -10,8 +10,16 @@ app.get('/hola-mundo', function(req, res) {
     res.status(200).send('Hola mundo desde el servidor')
 });
 
+var messages = [{
+    id: 1,
+    text: 'Bienvenido al chat privado de socket.io y NodeJS',
+    nickname: 'Bot - Dxelor'
+}]
+
 io.on('connection', function(socket) {
-    console.log("el nodo con IP: " + socket.handshake.address + " se ah conectado")
+    console.log("el nodo con IP: " + socket.handshake.address + " se ah conectado");
+    socket.emit('messages', messages)
+
 })
 
 server.listen(6677, function() {
