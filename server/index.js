@@ -4,11 +4,15 @@ var server = require('http').Server(app);
 
 var io = require('socket.io')(server);
 
+app.use(express.static('client'))
+
 app.get('/hola-mundo', function(req, res) {
     res.status(200).send('Hola mundo desde el servidor')
 });
 
-
+io.on('connection', function(socket) {
+    console.log("el nodo con IP: " + socket.handshake.address + " se ah conectado")
+})
 
 server.listen(6677, function() {
     console.log('Servidor está funcionando en http://localhost:6677');
